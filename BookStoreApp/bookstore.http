@@ -9,10 +9,14 @@ POST http://127.0.0.1:8000/api/books/
 Content-Type: application/json
 
 {
-  "title": "The Alchemist",
-  "author": "Paulo Coelho",
-  "published_date": "1988-01-01",
-  "isbn": "9780062315007"
+  "title": "Building Social Business",
+  "published_date": "2010-05-11",
+  "isbn": "9781586488246",
+  "author": {
+    "first_name": "Muhammad",
+    "last_name": "Yunus",
+    "nationality": "Bangladesh"
+  }
 }
 
 ### UPDATE Book

@@ -1,3 +1,5 @@
+import logging
+
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -31,16 +33,27 @@ class BookAPIView(APIView):
                 return Response({"message": "No books found"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, *args, **kwargs):
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                serializer.save()
-                return Response({'message': 'Book created successfully', **serializer.data},
-                                status=status.HTTP_201_CREATED)
-            except Exception as e:
-                return Response({"message": f"An error occurred: {str(e)}"},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        def post(self, request, *args, **kwargs):
+            book_serializer = BookSerializer(data=request.data)
+
+            if book_serializer.is_valid():
+                try:
+                    # Save the valid data and create the book
+                    book_serializer.save()
+                    return Response(
+                        {'message': 'Book created successfully', **book_serializer.data},
+                        status=status.HTTP_201_CREATED
+                    )
+                except Exception as e:
+                    # Log the exception for internal purposes
+                    logging.error(f"Error while creating book: {str(e)}")
+                    return Response(
+                        {'message': 'An internal error occurred. Please try again later.'},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
+
+            # If the data is invalid, return errors
+            return Response(book_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, *args, **kwargs):
         id = kwargs.get('id', None)
