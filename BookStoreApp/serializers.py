@@ -1,51 +1,58 @@
-from unicodedata import category
-
+import pycountry
 from rest_framework import serializers
-from setuptools.config.pyprojecttoml import validate
 
-from BookStoreApp.models import Author, Category, Book
+from BookStoreApp.models import Book, Author
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', 'name', 'bio', 'age']
+        fields = ['first_name', 'last_name', 'nationality']
+
+    # Validation for first_name field
+    def validate_first_name(self, value):
+        if not value.isalpha():
+            raise serializers.ValidationError("First name should only contain alphabetic characters.")
+        return value
+
+    # Validation for last_name field
+    def validate_last_name(self, value):
+        if not value.isalpha():
+            raise serializers.ValidationError("Last name should only contain alphabetic characters.")
+        return value
+
+    # Validation for nationality field using pycountry
+    def validate_nationality(self, value):
+        if not any(country.name == value for country in pycountry.countries):
+            raise serializers.ValidationError("Nationality must be a valid country.")
+        return value
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'name', 'description']
-
-
+# Create a serializer class for the Book model
 class BookSerializer(serializers.ModelSerializer):
+    # We still use AuthorSerializer for nested output but handle input validation manually
     author = AuthorSerializer()
-    categories = CategorySerializer(many=True)
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'categories', 'published_date', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'author', 'published_date', 'isbn', 'created_at']
 
-    # Overriding the create method to handle nested data in the request
-    # This method will be called when we call serializer.save() in the view
     def create(self, validated_data):
-        author_data = validated_data.pop('author')  # Extract author data from the request
+        # Pop the author data from the validated data
+        author_data = validated_data.pop('author')
 
-        # Check if the author data is an instance of Author
-        author_name = author_data.get('name')  # Extract author name from the author data
-        author, created = Author.objects.get_or_create(name=author_name,
-                                                       defaults=author_data)  # Get or create the author object
+        # After validation, check if the author already exists or create a new one
+        author, created = Author.objects.get_or_create(
+            first_name=author_data['first_name'],
+            last_name=author_data['last_name'],
+            defaults={'nationality': author_data.get('nationality', '')}
+        )
 
-        categories_data = validated_data.pop('categories')  # Extract categories data from the request
-        if not categories_data:
-            raise serializers.ValidationError({"categories": "This field cannot be empty."})
+        # If the author was already in the database and nationality was provided, update it
+        if author_data.get('nationality'):
+            author.nationality = author_data['nationality']
+            author.save()
 
-        # Create the book with the found or newly created author
+        # Create and return a new book instance
         book = Book.objects.create(author=author, **validated_data)
-
-        # Loop through the categories data and add them to the book
-        for category_data in categories_data:
-            category, created = Category.objects.get_or_create(**category_data)
-            book.categories.add(category)
-
         return book

@@ -1,0 +1,31 @@
+### GET All Books
+GET http://127.0.0.1:8000/api/books/
+
+### GET Book by ID
+GET http://127.0.0.1:8000/api/books/4/
+
+### POST New Book
+POST http://127.0.0.1:8000/api/books/
+Content-Type: application/json
+
+{
+  "title": "Building Social Business",
+  "published_date": "2010-05-11",
+  "isbn": "9781586488246",
+  "author": {
+    "first_name": "Muhammad",
+    "last_name": "Yunus",
+    "nationality": "Bangladesh"
+  }
+}
+
+### UPDATE Book
+PATCH http://127.0.0.1:8000/api/books/1/
+Content-Type: application/json
+
+{
+  "title": "The world of Three Zeros",
+  "author": "Muhammad Yunus",
+  "published_date": "2017-09-01",
+  "isbn": "9781476753171"
+}
