@@ -56,3 +56,19 @@ class BookSerializer(serializers.ModelSerializer):
         # Create and return a new book instance
         book = Book.objects.create(author=author, **validated_data)
         return book
+
+    def update(self, instance, validated_data):
+        # Handle Partial updates for the author field if provided
+        author_data = validated_data.pop('author', None)
+        if author_data:
+            author = instance.author
+            author.first_name = author_data.get('first_name', author.first_name)
+            author.last_name = author_data.get('last_name', author.last_name)
+            author.nationality = author_data.get('nationality', author.nationality)
+            author.save()
+
+        # Update the book fields and return the updated instance
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
