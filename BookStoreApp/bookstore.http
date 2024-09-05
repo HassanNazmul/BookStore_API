@@ -20,12 +20,9 @@ Content-Type: application/json
 }
 
 ### UPDATE Book
-PATCH http://127.0.0.1:8000/api/books/1/
+PATCH http://127.0.0.1:8000/api/books/7/
 Content-Type: application/json
 
 {
-  "title": "The world of Three Zeros",
-  "author": "Muhammad Yunus",
-  "published_date": "2017-09-01",
-  "isbn": "9781476753171"
+  "published_date": "2024-01-01"
 }
