@@ -26,3 +26,19 @@ Content-Type: application/json
 {
   "published_date": "2024-01-01"
 }
+
+
+### FULL UPDATE Book
+PUT http://127.0.0.1:8000/api/books/7/
+Content-Type: application/json
+
+{
+  "title": "Building Social Business - Updated",
+  "published_date": "2010-05-11",
+  "isbn": "9781586488246U",
+  "author": {
+    "first_name": "Muhammad",
+    "last_name": "Yunus",
+    "nationality": "Bangladesh"
+  }
+}
