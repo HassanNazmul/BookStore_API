@@ -57,6 +57,18 @@ class BookSerializer(serializers.ModelSerializer):
         book = Book.objects.create(author=author, **validated_data)
         return book
 
+    # Validate all required fields for a PUT request
+    def validate(self, data):
+        request_method = self.context.get('request').method  # Now this will work properly
+        if request_method == 'PUT':
+            required_fields = ['title', 'author', 'published_date', 'isbn']
+            missing_fields = [field for field in required_fields if not data.get(field)]
+
+            if missing_fields:
+                raise serializers.ValidationError({field: "This field is required." for field in missing_fields})
+
+        return data
+
     def update(self, instance, validated_data):
         # Handle Partial updates for the author field if provided
         author_data = validated_data.pop('author', None)
