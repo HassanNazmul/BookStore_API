@@ -27,9 +27,8 @@ Content-Type: application/json
   "published_date": "2024-01-01"
 }
 
-
 ### FULL UPDATE Book
-PUT http://127.0.0.1:8000/api/books/7/
+PUT http://127.0.0.1:8000/api/books/6/
 Content-Type: application/json
 
 {
@@ -42,3 +41,6 @@ Content-Type: application/json
     "nationality": "Bangladesh"
   }
 }
+
+### DELETE Book
+DELETE http://127.0.0.1:8000/api/books/6/

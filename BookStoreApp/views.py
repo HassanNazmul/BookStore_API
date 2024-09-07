@@ -1,5 +1,6 @@
 import logging
 
+from django.db import transaction
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -103,3 +104,26 @@ class BookAPIView(APIView):
 
         # If the data is invalid, return errors
         return Response(book_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        # Get the book ID from the URL
+        book_id = kwargs.get('id', None)
+        # Retrieve the book instance or return 404 if not found
+        book = get_object_or_404(Book, id=book_id)
+
+        try:
+            # Use atomic transaction for safety in case of cascading delete logic
+            with transaction.atomic():
+                # Delete the book instance
+                book.delete()
+            # Return a 200 OK response with a confirmation message
+            return Response({'message': 'Book deleted successfully'}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            # Log any unexpected errors with more details
+            logging.error(f"Error while deleting book (ID: {book_id}): {str(e)}")
+            # Return an internal server error message
+            return Response(
+                {'message': 'An internal error occurred. Please try again later.'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
