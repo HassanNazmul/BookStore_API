@@ -27,7 +27,7 @@ class BookAPIView(APIView):
                 return Response({"message": "Invalid id"}, status=status.HTTP_404_NOT_FOUND)
         else:
             try:  # Get all the books
-                books = Book.objects.all()
+                books = Book.objects.all().select_related("author")
                 serializer = BookSerializer(books, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except Http404:  # If no books are found, return a 404 response
