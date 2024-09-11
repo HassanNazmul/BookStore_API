@@ -11,13 +11,13 @@ class AuthorSerializer(serializers.ModelSerializer):
 
     # Validation for first_name field
     def validate_first_name(self, value):
-        if not value.isalpha():
+        if not all(char.isalpha() or char.isspace() or char == '.' for char in value):
             raise serializers.ValidationError("First name should only contain alphabetic characters.")
         return value
 
     # Validation for last_name field
     def validate_last_name(self, value):
-        if not value.isalpha():
+        if not all(char.isalpha() or char.isspace() or char == '.' for char in value):
             raise serializers.ValidationError("Last name should only contain alphabetic characters.")
         return value
 

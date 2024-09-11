@@ -4,20 +4,77 @@ GET http://127.0.0.1:8000/api/books/
 ### GET Book by ID
 GET http://127.0.0.1:8000/api/books/4/
 
-### POST New Book
-POST http://127.0.0.1:8000/api/books/
+### POST Bulk Book
+POST http://127.0.0.1:8000/api/books/create/
 Content-Type: application/json
 
 {
-  "title": "Building Social Business",
-  "published_date": "2010-05-11",
-  "isbn": "9781586488246",
+  "title": "Creating a World Without Poverty",
+  "published_date": "2007-12-27",
+  "isbn": "9781586484934",
   "author": {
     "first_name": "Muhammad",
     "last_name": "Yunus",
     "nationality": "Bangladesh"
   }
 }
+
+### POST Bulk Book
+POST http://127.0.0.1:8000/api/books/bulk/
+Content-Type: application/json
+
+[
+  {
+    "title": "Machine Learning with TensorFlow",
+    "published_date": "2018-01-23",
+    "isbn": "9781617293870",
+    "author": {
+      "first_name": "Manpreet",
+      "last_name": "Singh",
+      "nationality": "India"
+    }
+  },
+  {
+    "title": "Python Machine Learning",
+    "published_date": "2017-09-20",
+    "isbn": "9781787125933",
+    "author": {
+      "first_name": "Sudharsan",
+      "last_name": "Ravichandiran",
+      "nationality": "India"
+    }
+  },
+  {
+    "title": "Introduction to Artificial Intelligence",
+    "published_date": "2013-07-01",
+    "isbn": "9780198086341",
+    "author": {
+      "first_name": "M. C.",
+      "last_name": "Trivedi",
+      "nationality": "India"
+    }
+  },
+  {
+    "title": "Data Mining Techniques",
+    "published_date": "2006-04-01",
+    "isbn": "9789380501862",
+    "author": {
+      "first_name": "Arun",
+      "last_name": "Pujari",
+      "nationality": "India"
+    }
+  },
+  {
+    "title": "Computational Intelligence and Pattern Analysis",
+    "published_date": "2019-08-05",
+    "isbn": "9783319619163",
+    "author": {
+      "first_name": "A K",
+      "last_name": "Maji",
+      "nationality": "Bangladesh"
+    }
+  }
+]
 
 ### UPDATE Book
 PATCH http://127.0.0.1:8000/api/books/7/
