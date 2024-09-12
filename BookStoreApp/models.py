@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Book(models.Model):
-    title = models.CharField(max_length=50, unique=True, blank=False, null=False)
+    title = models.CharField(max_length=120, unique=True, blank=False, null=False)
     # author = models.CharField(max_length=50, blank=False, null=False)
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     published_date = models.DateField(blank=False, null=False)
@@ -15,8 +15,8 @@ class Book(models.Model):
 
 
 class Author(models.Model):
-    first_name = models.CharField(max_length=50, blank=False, null=False)
-    last_name = models.CharField(max_length=50, blank=False, null=False)
+    first_name = models.CharField(max_length=80, blank=False, null=False)
+    last_name = models.CharField(max_length=80, blank=False, null=False)
     nationality = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from BookStoreApp.filters import BookFilter
 from BookStoreApp.models import Book
 from BookStoreApp.serializers import BookSerializer
 
@@ -22,9 +23,14 @@ def get_books(request, id=None):
             # If no ID is provided, get all books
             books = Book.objects.all().select_related('author')
 
+            # Apply filters to the queryset
+            filterset = BookFilter(request.GET, queryset=books)
+            if filterset.is_valid():
+                books = filterset.qs
+
             # If no books are found, return a message
             if not books.exists():
-                return Response({'message': 'No Books Available in the Record'}, status=status.HTTP_200_OK)
+                return Response({'No Books Available in the Record'}, status=status.HTTP_200_OK)
 
             # Apply pagination to the books queryset
             paginated_books, paginator = paginate_queryset(books, request)
@@ -37,7 +43,7 @@ def get_books(request, id=None):
 
     # If the ID provided is invalid, return a message
     except Book.DoesNotExist:
-        return Response({'message': f'Invalid ID in the URL, There is no Book with ID {id}'},
+        return Response({f'Invalid ID in the URL, There is no Book with ID {id}'},
                         status=status.HTTP_404_NOT_FOUND)
 
     # If any other error occurs, return the error message
@@ -45,7 +51,6 @@ def get_books(request, id=None):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
 @api_view(['POST'])
 def create_book(request):
     try:
