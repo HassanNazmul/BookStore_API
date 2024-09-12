@@ -4,14 +4,20 @@ GET http://127.0.0.1:8000/api/books/
 ### GET Book by ID
 GET http://127.0.0.1:8000/api/books/4/
 
-### POST Bulk Book
+### GET Books by Author
+GET http://127.0.0.1:8000/api/books/?author_first_name=Muhammad
+
+### GET Books by Author National
+GET http://127.0.0.1:8000/api/books/?author_nationality=Bangladesh
+
+### POST Single Book
 POST http://127.0.0.1:8000/api/books/create/
 Content-Type: application/json
 
 {
-  "title": "Creating a World Without Poverty",
-  "published_date": "2007-12-27",
-  "isbn": "9781586484934",
+  "title": "A World of Three Zeros",
+  "published_date": "2017-09-26",
+  "isbn": "9781541742390",
   "author": {
     "first_name": "Muhammad",
     "last_name": "Yunus",
@@ -25,52 +31,102 @@ Content-Type: application/json
 
 [
   {
-    "title": "Machine Learning with TensorFlow",
-    "published_date": "2018-01-23",
-    "isbn": "9781617293870",
+    "title": "Pather Panchali",
+    "published_date": "1929-12-25",
+    "isbn": "9788184003901",
     "author": {
-      "first_name": "Manpreet",
-      "last_name": "Singh",
-      "nationality": "India"
+      "first_name": "Bibhutibhushan",
+      "last_name": "Bandyopadhyay",
+      "nationality": "Bangladesh"
     }
   },
   {
-    "title": "Python Machine Learning",
-    "published_date": "2017-09-20",
-    "isbn": "9781787125933",
+    "title": "Gitanjali",
+    "published_date": "1910-08-14",
+    "isbn": "9780140449883",
     "author": {
-      "first_name": "Sudharsan",
-      "last_name": "Ravichandiran",
-      "nationality": "India"
+      "first_name": "Rabindranath",
+      "last_name": "Tagore",
+      "nationality": "Bangladesh"
     }
   },
   {
-    "title": "Introduction to Artificial Intelligence",
-    "published_date": "2013-07-01",
-    "isbn": "9780198086341",
+    "title": "Debi",
+    "published_date": "1993-02-14",
+    "isbn": "9789847010809",
     "author": {
-      "first_name": "M. C.",
-      "last_name": "Trivedi",
-      "nationality": "India"
+      "first_name": "Humayun",
+      "last_name": "Ahmed",
+      "nationality": "Bangladesh"
     }
   },
   {
-    "title": "Data Mining Techniques",
-    "published_date": "2006-04-01",
-    "isbn": "9789380501862",
+    "title": "Lajja",
+    "published_date": "1993-09-12",
+    "isbn": "9780143032653",
     "author": {
-      "first_name": "Arun",
-      "last_name": "Pujari",
-      "nationality": "India"
+      "first_name": "Taslima",
+      "last_name": "Nasrin",
+      "nationality": "Bangladesh"
     }
   },
   {
-    "title": "Computational Intelligence and Pattern Analysis",
-    "published_date": "2019-08-05",
-    "isbn": "9783319619163",
+    "title": "Srikanta",
+    "published_date": "1917-01-10",
+    "isbn": "9788129147494",
     "author": {
-      "first_name": "A K",
-      "last_name": "Maji",
+      "first_name": "Sarat Chandra",
+      "last_name": "Chattopadhyay",
+      "nationality": "Bangladesh"
+    }
+  },
+  {
+    "title": "Chander Pahar",
+    "published_date": "1937-06-20",
+    "isbn": "9788129120947",
+    "author": {
+      "first_name": "Bibhutibhushan",
+      "last_name": "Bandyopadhyay",
+      "nationality": "Bangladesh"
+    }
+  },
+  {
+    "title": "Shesher Kobita",
+    "published_date": "1929-04-17",
+    "isbn": "9788129112058",
+    "author": {
+      "first_name": "Rabindranath",
+      "last_name": "Tagore",
+      "nationality": "Bangladesh"
+    }
+  },
+  {
+    "title": "Deyal",
+    "published_date": "2013-05-22",
+    "isbn": "9789847012728",
+    "author": {
+      "first_name": "Humayun",
+      "last_name": "Ahmed",
+      "nationality": "Bangladesh"
+    }
+  },
+  {
+    "title": "Ami Birangona Bolchi",
+    "published_date": "1995-12-15",
+    "isbn": "9788179761594",
+    "author": {
+      "first_name": "Nilima",
+      "last_name": "Ibrahim",
+      "nationality": "Bangladesh"
+    }
+  },
+  {
+    "title": "Madhyabartini",
+    "published_date": "1963-07-25",
+    "isbn": "9788184985764",
+    "author": {
+      "first_name": "Narayan",
+      "last_name": "Sanyal",
       "nationality": "Bangladesh"
     }
   }
