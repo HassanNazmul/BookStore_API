@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -27,6 +28,17 @@ def get_books(request, id=None):
             filterset = BookFilter(request.GET, queryset=books)
             if filterset.is_valid():
                 books = filterset.qs
+
+            # Apply search functionality
+            search_query = request.GET.get('search', None)
+            if search_query:
+                books = books.filter(
+                    Q(title__icontains=search_query) |
+                    Q(author__first_name__icontains=search_query) |
+                    Q(author__last_name__icontains=search_query) |
+                    Q(author__nationality__icontains=search_query) |
+                    Q(isbn__icontains=search_query)
+                )
 
             # If no books are found, return a message
             if not books.exists():

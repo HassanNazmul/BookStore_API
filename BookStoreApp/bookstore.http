@@ -4,11 +4,11 @@ GET http://127.0.0.1:8000/api/books/
 ### GET Book by ID
 GET http://127.0.0.1:8000/api/books/4/
 
-### GET Books by Author
-GET http://127.0.0.1:8000/api/books/?author_first_name=Muhammad
+### GET Books by filter
+GET http://127.0.0.1:8000/api/books/?author_name=Muhammad
 
-### GET Books by Author National
-GET http://127.0.0.1:8000/api/books/?author_nationality=Bangladesh
+### GET Books by Search
+GET http://127.0.0.1:8000/api/books/?search=india
 
 ### POST Single Book
 POST http://127.0.0.1:8000/api/books/create/
